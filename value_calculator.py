@@ -12,21 +12,21 @@ def value_calculator(newArticles):
         total_article_mean += article_mean
 
         # iterate through each keyword
-        for i in range(len(articleFile[1])):
-            if articleFile[1][i][0] not in keywordTerms.keys():
-                keywordTerms[articleFile[1][i][0]] = 0
+        for i in range(len(articleVals[1])):
+            if articleVals[1][i][0] not in keywordTerms.keys():
+                keywordTerms[articleVals[1][i][0]] = 0
                 
-            if articleFile[1][i][0] not in saliences.keys():
-                saliences[articleFile[1][i][0]] = 0 
+            if articleVals[1][i][0] not in saliences.keys():
+                saliences[articleVals[1][i][0]] = 0 
 
-            keywordTerms[articleFile[1][i][0]] += articleFile[1][i][1] * \
-                                                   articleFile[1][i][2] * \
-                                                   articleFile[1][i][3]
+            keywordTerms[articleVals[1][i][0]] += articleVals[1][i][1] * \
+                                                   articleVals[1][i][2] * \
+                                                   articleVals[1][i][3]
 
-            keywordTerms[articleFile[1][i][0]] -= articleFile[1][i][3] * \
+            keywordTerms[articleVals[1][i][0]] -= articleVals[1][i][3] * \
                                                   article_mean
 
-            saliences[articleFile[1][i][0]] += articleFile[1][i][3]
+            saliences[articleVals[1][i][0]] += articleVals[1][i][3]
 
     total_article_mean /= len(newArticles)
 
