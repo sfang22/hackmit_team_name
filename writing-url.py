@@ -17,7 +17,8 @@ db.child("url_log")
 # data to save
 data = {
     "source": "BBC",
-    "url": "google.com"
+    "url": "google.com",
+    "date": "2019/09/14"
 }
 
 # Pass the user's idToken to the push method
