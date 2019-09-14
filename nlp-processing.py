@@ -40,10 +40,13 @@ def analyze(movie_review_filename):
   document = types.Document(
     content=content,
     type=enums.Document.Type.PLAIN_TEXT)
+
   annotations_sentiment = client.analyze_sentiment(document=document)
   annotations_entity_sentiment = client.analyze_entity_sentiment(document=document)
 
   print_result(annotations_sentiment)
+  print(list(annotations_sentiment))
+
   annotations_sentiment = str(annotations_sentiment)
   annotations_entity_sentiment = str(annotations_entity_sentiment)
   return annotations_sentiment, annotations_entity_sentiment
@@ -61,5 +64,7 @@ def real_urls():
     except:
       print("something is a big L")
 
-real_urls()
-  # analyze("sample_news.txt")
+if __name__ == "__main__":
+  # real_urls()
+
+  analyze("sample_news.txt")
