@@ -5,12 +5,8 @@ from bs4 import BeautifulSoup
 
 def get_article_urls(url):
     ret = []
-
     r = requests.get(url)
-
     data = r.text
-
-
     soup = BeautifulSoup(data, "lxml")
 
     prev = ""
