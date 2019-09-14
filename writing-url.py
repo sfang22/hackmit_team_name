@@ -22,5 +22,5 @@ data = {
 }
 
 # Pass the user's idToken to the push method
-results = db.push(data)
+results = db.child("url_log").push(data)
 

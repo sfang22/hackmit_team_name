@@ -1,5 +1,9 @@
-import jsonify as jsonify
+from google.cloud import language
+from google.cloud.language import enums
+from google.cloud.language import types
+
 import pyrebase
+
 config = {
   "apiKey": "AIzaSyCA64ir3rDXaer9gcExR2k2sMUuUQA_5PU",
   "authDomain": "hack-mit-2e096.firebaseapp.com",
@@ -9,11 +13,6 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
-
-from google.cloud import language
-from google.cloud.language import enums
-from google.cloud.language import types
-
 
 
 def print_result(annotations):
@@ -42,13 +41,25 @@ def analyze(movie_review_filename):
     content=content,
     type=enums.Document.Type.PLAIN_TEXT)
   annotations_sentiment = client.analyze_sentiment(document=document)
-  annotations_entity = client.analyze_entities(document=document)
   annotations_entity_sentiment = client.analyze_entity_sentiment(document=document)
 
-  # Print the results
   print_result(annotations_sentiment)
-  # print(annotations_entity)
-  # print(annotations_entity_sentiment)
+  annotations_sentiment = str(annotations_sentiment)
+  annotations_entity_sentiment = str(annotations_entity_sentiment)
+  return annotations_sentiment, annotations_entity_sentiment
 
 
-analyze("sample_news.txt")
+def real_urls():
+  db = firebase.database()
+  urls = db.child("article-urls").get()
+  for url_id in urls.val():
+    url_info = urls.val()[url_id]
+    url = url_info["url"]
+    sentiment, entity_sentiment = analyze("sample_news.txt")
+    try:
+      db.child("article-urls").child(url_id).update({"sentiment": sentiment, "entity_sentiment": entity_sentiment})
+    except:
+      print("something is a big L")
+
+real_urls()
+  # analyze("sample_news.txt")
