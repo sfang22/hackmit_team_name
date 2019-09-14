@@ -34,9 +34,9 @@ if __name__ == "__main__":
 
     past_week = {
         'CNN': 'http://news.google.com/search?q=site%3Acnn.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
-        'Fox': 'http://news.google.com/search?q=%20site%3Afoxnews.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
+        'FOX': 'http://news.google.com/search?q=%20site%3Afoxnews.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
         'BBC': 'http://news.google.com/search?q=site%3Abbc.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
-        'Washington Post': 'http://news.google.com/search?q=site%3Awashingtonpost.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
+        'WP': 'http://news.google.com/search?q=site%3Awashingtonpost.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
         'ABC': 'http://news.google.com/search?q=site%3Ahttps%3A%2F%2Fabcnews.go.com%2F%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
         'NBC': 'http://news.google.com/search?q=%20site%3Anbcnews.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
         'CBS': 'http://news.google.com/search?q=%20site%3Awww.cbsnews.com%20%222020%20election%22%20when%3A7d&hl=en-US&gl=US&ceid=US%3Aen',
