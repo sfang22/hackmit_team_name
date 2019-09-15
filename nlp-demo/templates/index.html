@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>NPL Demo Dashboard</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/index.css') }}">
+
+    </head>
+    <body>
+        <h3 id = "source"></h3>
+        <a id = "url"></a>
+        <div class="row">
+            <div class="col-6">
+                <div id = "text"></div>
+                <iframe src="https://www.cnn.com/2019/09/12/politics/andrew-yang-democrats-2020/index.html"></iframe>
+
+            </div>
+            <div class="col-6">
+                <pre id = "blob"></pre>
+            </div>
+         </div>
+         <script src = "{{ url_for('static',filename='js/index.js') }}"> </script>
+    </body>
+</html>

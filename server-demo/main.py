@@ -21,7 +21,7 @@ def demo():
     return render_template('bars.html')
 
 
-@app.route('/news/all', methods=['GET'])
+@app.route('/news/All', methods=['GET'])
 def api_overall():
     db = firebase.database()
     insights = db.child("candidates-insights").get().val()

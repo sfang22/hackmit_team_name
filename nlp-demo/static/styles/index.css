@@ -1,0 +1,22 @@
+
+
+#url, #source {
+    text-align: center;
+}
+
+#source {
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 25px;
+    padding: 25px;
+    box-sizing: border-box;
+    background-color: lightblue;
+}
+
+#text, #blob {
+    padding: 25px;
+    padding: 25px;
+    box-sizing: border-box;
+    background-color: lightblue;
+}

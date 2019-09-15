@@ -17,8 +17,8 @@ NEWS_AGENCIES = ["CNN", "Fox", "BBC", "Washington Post", "ABC", "NBC", "CBS", "A
 
 for c in CANDIDATES:
     for n in NEWS_AGENCIES:
-        db.child("candidates-insights").child(c).push({n: (random.random() * 2 + -1, random.random() * 2 + -1)})
+        db.child("candidates-insights").child(c).push({n: (random.random(), -random.random())})
 
 for n in NEWS_AGENCIES:
     for c in CANDIDATES:
-        db.child("news-insights").child(n).push({c: (random.random() * 2 + -1, random.random() * 2 + -1)})
+        db.child("news-insights").child(n).push({c: (random.random(), -random.random())})

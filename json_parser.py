@@ -32,10 +32,10 @@ def json_to_articles(json_superfile):
                        article_overall_sentiment["sentences"]
 
         article_people = article_data["entity_sentiment"]
+        print(article_people)
         article_people_list = []
-        for person_key in article_people.keys():
+        for person_key in article_people:
             article_people_list.append([article_people[person_key]["name"], \
-                                   article_people[person_key]["salience"], \
                                    article_people[person_key]["sentiment"]["magnitude"], \
                                    article_people[person_key]["sentiment"]["score"]])
 
