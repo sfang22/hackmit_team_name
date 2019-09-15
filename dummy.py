@@ -15,10 +15,32 @@ CANDIDATES = ["Donald Trump","Julian Castro", "Cory Booker", "Andrew Yang", "Eli
 
 NEWS_AGENCIES = ["CNN", "Fox", "BBC", "Washington Post", "ABC", "NBC", "CBS", "AP"]
 
-for c in CANDIDATES:
-    for n in NEWS_AGENCIES:
-        db.child("candidates-insights").child(c).push({n: (random.random(), -random.random())})
+weights = {
+    ("Donald Trump", "CNN") : -1,
+    ("Donald Trump", "Fox"): 1,
+    ("Beto O'Rourke", "Fox"): -1,
+    ("Elizabeth Warren", "Fox"): -1,
+    ("Andrew Yang", "CNN"): 1,
+    ("Beto O'Rourke", "CNN"): 1,
+    ("Beto O'Rourke", "Washington Post"): 1,
+
+}
+
+# for c in CANDIDATES:
+#     for n in NEWS_AGENCIES:
+#
+#         db.child("candidates-insights").child(c).push({n: (random.random(), -random.random())})
 
 for n in NEWS_AGENCIES:
     for c in CANDIDATES:
-        db.child("news-insights").child(n).push({c: (random.random(), -random.random())})
+        pos = random.random()
+        neg =  -random.random()
+        if (c, n) in weights:
+            if weights[(c,n)] == 1:
+                pos = min(pos*1.1, 0.78)
+                neg /= 1.1
+            else:
+                neg = max(neg - 0.13, -0.78)
+                pos /= 1.1
+        db.child("news-insights").child(n).push({c: (pos, neg)})
+        db.child("candidates-insights").child(c).push({n: (pos, neg)})

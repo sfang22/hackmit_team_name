@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bar Test</title> 
+  <title>InforME</title> 
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,6 +19,25 @@
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   
   <style>
+      h3 {
+        text-align: center;
+        font-family:'Times New Roman', Times, serif
+      }
+      h4 {
+        font-family: 'Times New Roman', Times, serif;
+        font-style: italic;
+      }
+      #go {
+        margin-left: 15px;
+      }
+      #date, #news {
+        padding-left: 15px;
+      }
+      #description {
+      font-family: 'Times New Roman', Times, serif;
+      padding-top: 10px;
+      padding-bottom: 10px;
+     }
       div.popup {
         padding:10px 10px 10px 10px;
         width: 300px;
@@ -49,7 +68,10 @@
             transform: rotate(360deg);
         }
     }
+
+
   </style>
+
 
   <!-- google chart -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -70,10 +92,11 @@
     ["Tom Steyer", "(D) Tom Steyer is an investor, activist, philanthropist, and donor to progressive and Democratic Party causes."],
     ["Beto O\'Rourke'", "(D) Robert \"Beto\" O\'Rourke is a former U.S. representative from Texas."],
     ["Donald Trump", "(R) Donald Trump is the 45th and current president of the United States."],
+    ["Bernie Sanders", "(D) Bernie Sanders is an independent member of the U.S. Senate from Vermont who caucuses with the Democratic Party."]
   ]);
       
   function drawChart(data, div_name) {
-    var height = $(window).height() - 50;
+    var height = $(window).height() - 70;
     // $('#chartDiv').height(height);
     $('#' + div_name).height(height);
 
@@ -116,7 +139,9 @@
 	        tooltip: {isHtml: true }, /* use HTML tooltip */
     	    colors: ['#59cf8a','#ff5959'],
           hAxis: { title: 'Candidate'},
-          vAxis: { title: 'Bias'}
+          vAxis: { title: 'Bias'},
+          chartArea:{left:100,top:20,width:"67%",height:"67%"}
+
         };
         chart.draw(dataTable, options);
     }else{
@@ -160,12 +185,17 @@
   }
 
   function createHtmlTooltip(candidate, good, bad) {
-    var img_path = "../static/images" + candidate + "/.jpg";
-    var html = '<div class="popup"><img src="' + img_path + '" width="42" height="42">'
+    c_name = candidate.replace(" ", "_");
+    var img_path = "../static/images/" + c_name + ".jpg";
+    var description= candidateMap.get(candidate);
+    if (candidate.includes("Beto")) {
+      description = "(D) Robert \"Beto\" O\'Rourke is a former U.S. representative from Texas.";
+    }
+    var html = '<div class="popup"><img src="' + img_path +  '" width="42" height="42">'
        + '<b>' + candidate + '</b><hr>'
-       + '<b>Description:</b><br>' + candidateMap.get(candidate)
-       + '<br><b>Positive: </b>' + Math.round(good * 100) / 100; 
-       + '<br><b>Negative: </b>' + Math.round(bad * 100) / 100; 
+       + description
+       + '<br><b>Positive: </b>' + Math.round(good * 100) / 100 
+       + '<br><b>Negative: </b>' + Math.round(bad * 100) / 100 
        + '<br></div>';
     return html;
   }
@@ -174,10 +204,10 @@
     $("#errorMsg").hide();
     let startDate = $("#startDate").datepicker({dateFormat: 'yy-mm-dd'}).val();
     let endDate = $("#endDate").datepicker({dateFormat: 'yy-mm-dd'}).val();
-    if(startDate == 0 || endDate == 0) {
-        $("#errorMsg").show();
-        // return
-    }
+    // if(startDate == 0 || endDate == 0) {
+    //     $("#errorMsg").show();
+    //     return
+    // }
 
 	$("#spinner").show();
   fetch("/news/" + $("#news1").val(), {method: 'GET'})
@@ -217,45 +247,61 @@
 <body>
 
 <div class="container-fluid">
-  <h3>2020 Presidential Election</h3>
-  <div>Start Date: 
-        <input class="datepicker button" id="startDate" readonly>
-        End Date: 
-        <input class="datepicker button" id="endDate" readonly>
-        <button type="button" class="btn btn-dark" onclick="loadData()">Filter</button>
-    </div>
-    <div id=>News Source 1: 
-            <select id="news1">
-                    <option value="All">All</option>
-                    <option value="ABC">ABC</option>
-                    <option value="CBS">CBS</option>
-                    <option value="NBC">NBC</option>
-                    <option value="CNN">CNN</option>
-                    <option value="Fox">Fox</option>
-                    <option value="BBC">BBC</option>
-                    <option value="Washington_Post">Washington Post</option>
-                    <option value="AP">Associated Press</option>
-            </select>
-        News Source 2: 
-            <select id="news2">
-                    <option value="All">All</option>
-                    <option value="ABC">ABC</option>
-                    <option value="CBS">CBS</option>
-                    <option value="NBC">NBC</option>
-                    <option value="CNN">CNN</option>
-                    <option value="Fox">Fox</option>
-                    <option value="BBC">BBC</option>
-                    <option value="Washington_Post">Washington Post</option>
-                    <option value="AP">Associated Press</option>
-            </select>
-    </div>
+  <h3>InforME 2020 Presidential Election</h3>
+  <h4>"Elections belong to the people." -Abraham Lincoln</h4>
+  <h5 id = "description">
+      InforME uses Google Cloud Natural Language API to perform sentiment analysis on news articles relevant to the 2020 Presidential Election across 8 major media sources in order to detect bias in how candidates are portrayed and help create a more informed electorate.   </div>
+  
+      <div class="row" style="height:5%">
+          <div class="col-md-6"> 
+              <div id="news">News Source 1: 
+                  <select id="news1">
+                          <option value="All">All</option>
+                          <option value="ABC">ABC</option>
+                          <option value="CBS">CBS</option>
+                          <option value="NBC">NBC</option>
+                          <option value="CNN">CNN</option>
+                          <option value="Fox">Fox</option>
+                          <option value="BBC">BBC</option>
+                          <option value="Washington_Post">Washington Post</option>
+                          <option value="AP">Associated Press</option>
+                  </select>
+              News Source 2: 
+                  <select id="news2">
+                          <option value="All">All</option>
+                          <option value="ABC">ABC</option>
+                          <option value="CBS">CBS</option>
+                          <option value="NBC">NBC</option>
+                          <option value="CNN">CNN</option>
+                          <option value="Fox">Fox</option>
+                          <option value="BBC">BBC</option>
+                          <option value="Washington_Post">Washington Post</option>
+                          <option value="AP">Associated Press</option>
+                  </select>
+                  <button type="button" class="btn btn-dark" id = "go" onclick="loadData()">Go</button>
+
+          </div>
+          </div>
+          <div class="col-md-6"> 
+              <div id = "date">Start Date: 
+                  <input class="datepicker button" id="startDate" readonly>
+                  End Date: 
+                  <input class="datepicker button" id="endDate" readonly>
+              </div>
+          </div>
+      </div>
+
+
+
+
+    
     <div id="errorMsg" class="error" style="display: None;">Please select a time window.</div>  
     <div class="row">
         <div class="col-md-6"> 
-            <div id="chartDiv" style="height:500px;width: 100%"></div> 
+            <div id="chartDiv" style="height:500px;width: 100%;"></div> 
         </div>
         <div class="col-md-6"> 
-            <div id="chartDiv2" style="height:500px;width: 100%"></div>
+            <div id="chartDiv2" style="height:500px;width: 100%;"></div>
         </div>
     </div>
  <div id="spinner" class="loader" style="display:none;"></div>
