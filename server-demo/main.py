@@ -18,7 +18,7 @@ firebase = pyrebase.initialize_app(config)
 
 @app.route('/')
 def demo():
-    return render_template('index.html')
+    return render_template('bars.html')
 
 
 @app.route('/news/all', methods=['GET'])

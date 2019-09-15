@@ -60,20 +60,23 @@ def real_urls():
     urls = db.child("article-urls").get()
     for url_id in urls.val():
         url_info = urls.val()[url_id]
+        action = "None"
+        if ("sentiment" not in url_info) and ("entity_sentiment" not in url_info):
+            action = "Build"
+            #save article content to txt file
+            article_content = article_scraper.scrape_url(url_info["source"],url_info["url"])
+            with open("sample_news.txt", "w") as text_file:
+                text_file.write(article_content)
 
-        #save article content to txt file
-        article_content = article_scraper.scrape_url(url_info["source"],url_info["url"])
-        with open("sample_news.txt", "w") as text_file:
-            text_file.write(article_content)
+            #google api sentiment analysis
+            sentiment, entity_sentiment = analyze("sample_news.txt")
 
-        #google api sentiment analysis
-        sentiment, entity_sentiment = analyze("sample_news.txt")
-
-        # try:
-        db.child("article-urls").child(url_id).update({"sentiment": sentiment})
-        db.child("article-urls").child(url_id).update({"entity_sentiment": entity_sentiment})
-        # except:
-        #     print("something is wrong")
+            db.child("article-urls").child(url_id).update({"sentiment": sentiment})
+            db.child("article-urls").child(url_id).update({"entity_sentiment": entity_sentiment})
+        elif "entity_sentiment" not in url_info:
+            db.child("article-urls").child(url_id).remove()
+            action = "remove"
+        print(url_id, action)
 
 if __name__ == "__main__":
     real_urls()

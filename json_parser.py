@@ -24,7 +24,10 @@ def json_to_articles(json_superfile):
         article_stats = []
 
         article_overall_sentiment = article_data["sentiment"]
-        article_mean = article_overall_sentiment["magnitude"] * \
+        if article_overall_sentiment["sentences"] == 0:
+            article_mean = 0
+        else:
+            article_mean = article_overall_sentiment["magnitude"] * \
                        article_overall_sentiment["score"] / \
                        article_overall_sentiment["sentences"]
 
