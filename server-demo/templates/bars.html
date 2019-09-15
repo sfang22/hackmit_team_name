@@ -99,12 +99,12 @@
         });
 
         var options = {
-            title: 'Fox',
+          title: $('#news1').val(),
           isStacked: true,
 	  tooltip: {isHtml: true }, /* use HTML tooltip */
     	  colors: ['#59cf8a','#ff5959'],
           hAxis: { title: 'Candidate'},
-          vAxis: { title: 'Points'}
+          vAxis: { title: 'Bias'}
         };
         chart.draw(dataTable, options);
     }else{
@@ -136,17 +136,17 @@
 
     // Create the data table with data
     if ( data.length > 0 ){
-        $.each(data, function(i, value){
-          dataTable.addRow( [value.candidate, value.good, createHtmlTooltip(value), value.bad * -1, createHtmlTooltip(value) ]);
+        $.each(data, function(candidate, scores){
+          dataTable.addRow( [candidate, scores[0], createHtmlTooltip(candidate), value.bad, createHtmlTooltip(scores[1]) ]);
         });
 
         var options = {
-          title: 'CNN',
+          title: $('#news2').val(),
           isStacked: true,
 	  tooltip: {isHtml: true }, /* use HTML tooltip */
     	  colors: ['#59cf8a','#ff5959'],
           hAxis: { title: 'Candidate'},
-          vAxis: { title: 'Points'}
+          vAxis: { title: 'Bias'}
         };
         chart.draw(dataTable, options);
     }else{
@@ -156,11 +156,11 @@
 
   function createHtmlTooltip(value) {
      var html = '<div class="popup"><img src="../static/images/Biden.jpg" width="42" height="42">'
-       + '<b>' + value.candidate + '</b><hr>'
-       + '<b>Description:</b><br>' + value.description
-       + '<br><b>Positive: </b>' + value.good
-       + '<br><b>Negative: </b>' + value.bad
-       + '<br></div>';
+       + '<b>' + value + '</b><hr>'
+      //  + '<b>Description:</b><br>' + value.description
+      //  + '<br><b>Positive: </b>' + value.good
+      //  + '<br><b>Negative: </b>' + value.bad
+      //  + '<br></div>';
     return html;
   }
 
@@ -170,7 +170,7 @@
     let endDate = $("#endDate").datepicker({dateFormat: 'yy-mm-dd'}).val();
     if(startDate == 0 || endDate == 0) {
         $("#errorMsg").show();
-        return
+        // return
     }
     var newsSource1 = $("#news1").val();
     var newsSource2 = $("#news2").val();
@@ -184,7 +184,7 @@
   //       $("#spinner").hide();
   //   });
 
-    fetch("/news/" + newsSource1, {method: 'GET'})
+  fetch("/news/" + newsSource1, {method: 'GET'})
       .then(data => data.text())
       .then(resp =>
         console.log(resp));
@@ -210,10 +210,6 @@
       });
       */
   }
-
-  $(document).ready( function(){
-
-  });
 
   $(document).ready( function(){
      // jQuery datepicker
