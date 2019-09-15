@@ -1,4 +1,4 @@
-from json_parser import json_to_values
+from json_parser import json_to_articles
 
 def value_calculator(newArticles):
 
