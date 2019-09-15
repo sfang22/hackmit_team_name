@@ -58,18 +58,20 @@
   google.charts.setOnLoadCallback(loadData);
 
 
-  var serverData = { "Person 1": [5,20],
-     "Person 2" : [10,-10],
-     "Person 3": [30, -5], 
-     "Person 4": [20, -15],
-     "Person 5": [30, -8],
-     "Person 6": [10, -10],
-     "Person 7": [30, -5],
-     "Person 8": [20, -15],
-     "Person 9": [30, -8],
-  };
-
-              
+  var candidateMap = new Map([
+    ["Joe Biden", "(D) Joe Biden is a former Democratic vice president of the United States."],
+	  ["Andrew Yang", "(D) Andrew Yang is a Democratic candidate for president of the United States in 2020."],
+    ["Elizabeth Warren", "(D) Elizabeth Warren is a Democratic member of the U.S. Senate from Massachusetts."],
+    ["Amy Klobuchar", "(D) Amy Klobuchar is a Democratic member of the U.S. Senate from Minnesota."],
+    ["Pete Buttigieg", "(D) Pete Buttigieg is the Democratic mayor of South Bend, Indiana."],
+    ["Julian Castro", "(D) Julian Castro served as U.S. secretary of housing and urban development from 2014 to 2017."],
+    ["Kamala Harris", "(D) Kamala Harris is a Democratic member of the U.S. Senate from California."],
+    ["Cory Booker", "(D) Cory Booker is a Democratic member of the U.S. Senate from New Jersey."],
+    ["Tom Steyer", "(D) Tom Steyer is an investor, activist, philanthropist, and donor to progressive and Democratic Party causes."],
+    ["Beto O\'Rourke'", "(D) Robert \"Beto\" O\'Rourke is a former U.S. representative from Texas."],
+    ["Donald Trump", "(R) Donald Trump is the 45th and current president of the United States."],
+  ]);
+      
   function drawChart(data, div_name) {
     var height = $(window).height() - 50;
     // $('#chartDiv').height(height);
@@ -157,13 +159,14 @@
     }
   }
 
-  function createHtmlTooltip(value, good, bad) {
-     var html = '<div class="popup"><img src="../static/images/Biden.jpg" width="42" height="42">'
-       + '<b>' + value + '</b><hr>'
-      //  + '<b>Description:</b><br>' + value.description
-       + '<br><b>Positive: </b>' + good
-       + '<br><b>Negative: </b>' + bad
-      //  + '<br></div>';
+  function createHtmlTooltip(candidate, good, bad) {
+    var img_path = "../static/images" + candidate + "/.jpg";
+    var html = '<div class="popup"><img src="' + img_path + '" width="42" height="42">'
+       + '<b>' + candidate + '</b><hr>'
+       + '<b>Description:</b><br>' + candidateMap.get(candidate)
+       + '<br><b>Positive: </b>' + Math.round(good * 100) / 100; 
+       + '<br><b>Negative: </b>' + Math.round(bad * 100) / 100; 
+       + '<br></div>';
     return html;
   }
 
@@ -175,12 +178,9 @@
         $("#errorMsg").show();
         // return
     }
-    var newsSource1 = $("#news1").val();
-    var newsSource2 = $("#news2").val();
-	  
 
 	$("#spinner").show();
-  fetch("/news/" + newsSource1, {method: 'GET'})
+  fetch("/news/" + $("#news1").val(), {method: 'GET'})
   .then(data => data.json())
   .then(resp => {
     drawChart(resp, "chartDiv");
@@ -189,7 +189,7 @@
   });
 
   $("#spinner").show();
-  fetch("/news/" + newsSource2, {method: 'GET'})
+  fetch("/news/" + $("#news2").val(), {method: 'GET'})
   .then(data => data.json())
   .then(resp => {
     drawChart(resp, "chartDiv2");
