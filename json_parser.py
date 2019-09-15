@@ -24,18 +24,28 @@ def json_to_articles(json_superfile):
         article_stats = []
 
         article_overall_sentiment = article_data["sentiment"]
-        if article_overall_sentiment["sentences"] == 0:
-            article_mean = 0
-        else:
-            article_mean = article_overall_sentiment["magnitude"] * \
+        article_mean = article_overall_sentiment["magnitude"] * \
                        article_overall_sentiment["score"] / \
                        article_overall_sentiment["sentences"]
 
         article_people = article_data["entity_sentiment"]
-        print(article_people)
+        # print(article_people)
+
+        temp_dict = {}
+        if type(article_people) == list:
+            for i in range(len(article_people)):
+                if article_people[i] != None:
+                    temp_dict[str(i)] = article_people[i]
+            article_people = temp_dict
+        # print()
+        
+        # print(article_people)
+
+        # print()
         article_people_list = []
-        for person_key in article_people:
+        for person_key in article_people.keys():
             article_people_list.append([article_people[person_key]["name"], \
+                                   article_people[person_key]["salience"], \
                                    article_people[person_key]["sentiment"]["magnitude"], \
                                    article_people[person_key]["sentiment"]["score"]])
 
