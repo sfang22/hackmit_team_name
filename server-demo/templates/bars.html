@@ -58,16 +58,26 @@
   google.charts.setOnLoadCallback(loadData);
 
   // TODO: to be removed, canned json data (should retrieve from web service)
-  var serverData = [{"candidate":"Person 1", "good":5, "bad":20, "description":"Description for Person 1"},
-     {"candidate":"Person 2", "good":10, "bad":10, "description":"Description for Person 2"},
-     {"candidate":"Person 3", "good":30, "bad":5, "description":"Description for Person 3"},
-     {"candidate":"Person 4", "good":20, "bad":15, "description":"Description for Person 4"},
-     {"candidate":"Person 5", "good":30, "bad":8, "description":"Description for Person 5"},
-     {"candidate":"Person 6", "good":10, "bad":10, "description":"Description for Person 6"},
-     {"candidate":"Person 7", "good":30, "bad":5, "description":"Description for Person 7"},
-     {"candidate":"Person 8", "good":20, "bad":15, "description":"Description for Person 8"},
-     {"candidate":"Person 9", "good":30, "bad":8, "description":"Description for Person 9"},
-  ];
+  // var serverData = [{"candidate":"Person 1", "good":5, "bad":20, "description":"Description for Person 1"},
+  //    {"candidate":"Person 2", "good":10, "bad":10, "description":"Description for Person 2"},
+  //    {"candidate":"Person 3", "good":30, "bad":5, "description":"Description for Person 3"},
+  //    {"candidate":"Person 4", "good":20, "bad":15, "description":"Description for Person 4"},
+  //    {"candidate":"Person 5", "good":30, "bad":8, "description":"Description for Person 5"},
+  //    {"candidate":"Person 6", "good":10, "bad":10, "description":"Description for Person 6"},
+  //    {"candidate":"Person 7", "good":30, "bad":5, "description":"Description for Person 7"},
+  //    {"candidate":"Person 8", "good":20, "bad":15, "description":"Description for Person 8"},
+  //    {"candidate":"Person 9", "good":30, "bad":8, "description":"Description for Person 9"},
+  // ];
+  var serverData = { "Person 1": [5,20],
+     "Person 2" : [10,-10],
+     "Person 3": [30, -5], 
+     "Person 4": [20, -15],
+     "Person 5": [30, -8],
+     "Person 6": [10, -10],
+     "Person 7": [30, -5],
+     "Person 8": [20, -15],
+     "Person 9": [30, -8],
+  };
 
               
   function drawChart(data) {
@@ -94,8 +104,10 @@
 
     // Create the data table with data
     if ( data.length > 0 ){
-        $.each(data.keys, function(i, value){
-          dataTable.addRow( [value.candidate, value.good, createHtmlTooltip(value), value.bad * -1, createHtmlTooltip(value) ]);
+        $.each(data, function(candidate, scores){
+          console.log(candidate);
+          console.log(scores);
+          dataTable.addRow( [candidate, scores[0], createHtmlTooltip(candidate), value.bad, createHtmlTooltip(scores[1]) ]);
         });
 
         var options = {
@@ -184,11 +196,12 @@
   //       $("#spinner").hide();
   //   });
 
-  fetch("/news/" + newsSource1, {method: 'GET'})
-      .then(data => data.text())
-      .then(resp =>
-        console.log(resp));
-
+  // fetch("/news/" + newsSource1, {method: 'GET'})
+  //     .then(data => data.text())
+  //     .then(resp => function(resp) {
+  //       console.log(resp);
+  //       //drawChart(resp);
+  //     });
 
     // $("#spinner").show();
 	// $.getJSON("news/" + newsSource1 , function (data) {
@@ -202,14 +215,7 @@
 
     drawChart(serverData);
     drawChart2(serverData);
-	  /*
-      get(baseURL + "gym/" + day, {}, function (data) {
-    	  serverData = data;
-          drawChart(data);
-          //$("#spinner").hide();
-      });
-      */
-  }
+  
 
   $(document).ready( function(){
      // jQuery datepicker
@@ -225,6 +231,7 @@
       drawChart(serverData);
       drawChart2(serverData);
   });
+}
 
 
 </script>
