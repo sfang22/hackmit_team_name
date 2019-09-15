@@ -20,10 +20,24 @@ firebase = pyrebase.initialize_app(config)
 def demo():
     return render_template('index.html')
 
-@app.route('/list', methods=['GET'])
-def read():
-    return "hello"
+@app.route('/news/<news_name>', methods=['GET'])
+def api_news(news_name):
+    db = firebase.database()
+    insights = db.child("news-insights").child(news_name).get().val()
+    result = {}
+    for key in insights:
+        result.update(insights[key])
+    return result
 
+@app.route('/candidates/<candidate_name>', methods=['GET'])
+def api_candidates(candidate_name):
+    candidate_name = candidate_name.replace('_', ' ')
+    db = firebase.database()
+    insights = db.child("candidates-insights").child(candidate_name).get().val()
+    result = {}
+    for key in insights:
+        result.update(insights[key])
+    return result
 
 if __name__ == "__main__":
     app.run(host= '0.0.0.0')

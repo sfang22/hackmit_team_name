@@ -13,24 +13,28 @@ config = {
   "serviceAccount": "hack-mit-2e096-firebase-adminsdk-u0606-f54e8a8410.json"
 }
 
+NAME_MAPPING = {"Trump": "Donald Trump", "Donald J Trump": "Donald Trump", "Castro":  "Julian Castro",
+             "Booker": "Cory Booker", "Yang": "Andrew Yang", "Warren": "Elizabeth Warren", "Biden": "Joe Biden",
+             "Sanders": "Bernie Sanders",  "Harris": "Kamala Harris",  "O'Rourke": "Beto O'Rourke",
+             "Buttigieg": "Pete Buttigieg", "Klobuchar": "Amy Klobuchar", "Steyer": "Tom Steyer"}
+CANDIDATES = {"Trump", "Donald Trump", "Donald J Trump", "Castro", "Julian Castro", "Booker", "Cory Booker", "Yang", "Andrew Yang", "Warren", "Elizabeth Warren", "Biden", "Joe Biden", "Sanders", "Bernie Sanders", "Harris", "Kamala Harris", "O'Rourke", "Beto O'Rourke", "Buttigieg", "Pete Buttigieg", "Klobuchar", "Amy Klobuchar", "Steyer", "Tom Steyer"}
 firebase = pyrebase.initialize_app(config)
 
-MAX_ENTITY = 5
 
 def process_sentiment(annotations):
     score = annotations.document_sentiment.score
     magnitude = annotations.document_sentiment.magnitude
-    return {"score": score, "magnitude": magnitude}
+    sentences = len(annotations.sentences)
+    return {"score": score, "magnitude": magnitude, "sentences": sentences}
 
 def process_entity_sentiment(annotations):
     all_sentiments = {}
 
-    counter = 0
     for x in enumerate(annotations.entities):
-        counter += 1
-        all_sentiments[x[0]] = {"name": x[1].name, "salience": x[1].salience, "sentiment": {"score": x[1].sentiment.score, "magnitude": x[1].sentiment.magnitude}}
-        if counter >= MAX_ENTITY:
-            return all_sentiments
+        if x[1].name in CANDIDATES:
+            name = x[1].name if x[1].name not in NAME_MAPPING else NAME_MAPPING[x[1].name]
+            all_sentiments[x[0]] = {"name": name, "salience": x[1].salience, "sentiment": {"score": x[1].sentiment.score, "magnitude": x[1].sentiment.magnitude}}
+
     return all_sentiments
 
 def analyze(movie_review_filename):
