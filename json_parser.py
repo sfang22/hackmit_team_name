@@ -1,26 +1,43 @@
 import json
 
-# returns article mean, list of key words with salience, mag, score
-def json_to_values(sentiment_file, entity_sentiment_file):
+# articles = { "CNN" : [ [ article_mean, [ [ keyword, salience, mag, score ] ] ] ],
+#                      [ next article ], [ next article ] ], "NBC" : , etc. }
 
-    data_1 = ""
-    with open(sentiment_file, "r") as read_file_1:
-        data_1 = json.load(read_file_1)
+def json_to_articles(json_superfile):
 
-    data_2 = ""
-    with open(entity_sentiment_file, "r") as read_file_2:
-        data_2 = json.load(read_file_2)
+    data = ""
+    with open(json_superfile, "r") as read_file:
+        data = json.load(read_file)
 
-    article_mean = data_1["documentSentiment"]["score"] * \
-                   data_1["documentSentiment"]["magnitude"] / \
-                   len(data_1["sentences"])
+    articles = {}
 
-    keywordsList = []
-    for key in data_2["entities"]:
-        if key["type"] == "PERSON":
-            newList = [key["name"], key["salience"], \
-                       key["sentiment"]["magnitude"], \
-                       key["sentiment"]["score"]]
-            keywordsList.append(newList)
-    
-    return [article_mean, keywordsList]
+    # per article
+    for article_key in data["article-urls"].keys():
+
+        article_data = data["article-urls"][article_key]
+        
+        source = article_data["source"]
+        
+        if source not in articles.keys():
+            articles[source] = []
+
+        article_stats = []
+
+        article_overall_sentiment = article_data["sentiment"]
+        article_mean = article_overall_sentiment["magnitude"] * \
+                       article_overall_sentiment["score"] / \
+                       article_overall_sentiment["sentences"]
+
+        article_people = article_data["entity_sentiment"]
+        article_people_list = []
+        for person_key in article_people.keys():
+            article_people_list.append([article_people[person_key]["name"], \
+                                   article_people[person_key]["salience"], \
+                                   article_people[person_key]["sentiment"]["magnitude"], \
+                                   article_people[person_key]["sentiment"]["score"]])
+
+        article_stats = [article_mean, article_people_list]
+
+        articles[source].append(article_stats)
+
+    return articles
