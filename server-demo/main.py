@@ -20,8 +20,27 @@ firebase = pyrebase.initialize_app(config)
 def demo():
     return render_template('index.html')
 
+
+@app.route('/news/all', methods=['GET'])
+def api_overall():
+    db = firebase.database()
+    insights = db.child("candidates-insights").get().val()
+    result = {}
+    f = lambda lst: sum(lst) / len(lst)
+    for candidate in insights:
+        print(candidate)
+        val_1 = []
+        val_2 = []
+        for _, val in insights[candidate].items():
+            [value_1, value_2] = list(val.values())[0]
+            val_1.append(value_1)
+            val_2.append(value_2)
+        result[candidate] = [f(val_1), f(val_2)]
+    return result
+
 @app.route('/news/<news_name>', methods=['GET'])
 def api_news(news_name):
+    news_name = news_name.replace('_', ' ')
     db = firebase.database()
     insights = db.child("news-insights").child(news_name).get().val()
     result = {}

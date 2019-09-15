@@ -66,21 +66,13 @@ def eval_articles_std(allArticles):
                 if candidate[0] not in candidate_std[news_key].keys():
                     candidate_std[news_key][candidate[0]] = 0
 
-                candidate_std[news_key][candidate[0]] += candidate[1] * \
-                                                           candidate[2] * \
-                                                           candidate[3]
+                temp = candidate[1] * candidate[2] - total_article_mean
+                temp **= 2
+                temp *= candidate[3]
 
-                candidate_std[news_key][candidate[0]] -= candidate[3] * \
-                                                           article[0]
-
-                candidate_std[news_key][candidate[0]] += candidate[3] * \
-                                                           total_article_mean
-
-                candidate_std[news_key][candidate[0]] **= 2
-                candidate_std[news_key][candidate[0]] /= candidate[3]
+                candidate_std[news_key][candidate[0]] += temp
 
     return candidate_std
-
 
 
 def eval_articles_pm(allArticles):
