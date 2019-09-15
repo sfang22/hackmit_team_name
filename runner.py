@@ -1,6 +1,7 @@
 from json_parser import json_to_articles
 from value_calculator import eval_articles_mean, eval_articles_std, eval_articles_pm
 import pyrebase
+import math
 import json
 config = {
     "apiKey": "AIzaSyCA64ir3rDXaer9gcExR2k2sMUuUQA_5PU",
