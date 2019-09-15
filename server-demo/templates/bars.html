@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bar Test</title> 
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--  bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <!--  font awesome icons -->  
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css'>
+  
+  <!-- jQuery UI has to be included after bootstrap or close icon won't show -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <style>
+      div.popup {
+        padding:10px 10px 10px 10px;
+        width: 300px;
+      }
+
+      div.loader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        border: 16px solid #f3f3f3; /* Light gray */
+        border-top: 16px solid #ff751a; /* loader color */
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 2s linear infinite;
+        z-index: 999;
+    }
+    
+    .error {
+        color: red;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+  </style>
+
+  <!-- google chart -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+  google.charts.load("current", {packages:["corechart","bar"]});
+  google.charts.setOnLoadCallback(loadData);
+
+  // TODO: to be removed, canned json data (should retrieve from web service)
+  var serverData = [{"candidate":"Person 1", "good":5, "bad":20, "description":"Description for Person 1"},
+     {"candidate":"Person 2", "good":10, "bad":10, "description":"Description for Person 2"},
+     {"candidate":"Person 3", "good":30, "bad":5, "description":"Description for Person 3"},
+     {"candidate":"Person 4", "good":20, "bad":15, "description":"Description for Person 4"},
+     {"candidate":"Person 5", "good":30, "bad":8, "description":"Description for Person 5"},
+     {"candidate":"Person 6", "good":10, "bad":10, "description":"Description for Person 6"},
+     {"candidate":"Person 7", "good":30, "bad":5, "description":"Description for Person 7"},
+     {"candidate":"Person 8", "good":20, "bad":15, "description":"Description for Person 8"},
+     {"candidate":"Person 9", "good":30, "bad":8, "description":"Description for Person 9"},
+  ];
+
+              
+  function drawChart(data) {
+    var height = $(window).height() - 50;
+    $('#chartDiv').height(height);
+
+    var container = document.getElementById('chartDiv');
+    var chart = new google.visualization.ColumnChart(container);
+    var dataTable = new google.visualization.DataTable();
+
+    // add listener on select event
+    // google.visualization.events.addListener(chart, 'select', function () {
+    //   var selection = chart.getSelection();
+    //   var row = selection[0].row;
+    //   alert("Selected " + dataTable.getValue(row, 0));
+    //   window.location = "http://www.google.com";
+    // });
+    
+    dataTable.addColumn({ type: 'string', id: 'Candidate' });
+    dataTable.addColumn({ type: 'number', id: 'Positive', label:'Positive' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip', p: {html: true} });
+    dataTable.addColumn({ type: 'number', id: 'Negative', label:'Negative' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip', p: {html: true} });
+
+    // Create the data table with data
+    if ( data.length > 0 ){
+        $.each(data.keys, function(i, value){
+          dataTable.addRow( [value.candidate, value.good, createHtmlTooltip(value), value.bad * -1, createHtmlTooltip(value) ]);
+        });
+
+        var options = {
+            title: 'Fox',
+          isStacked: true,
+	  tooltip: {isHtml: true }, /* use HTML tooltip */
+    	  colors: ['#59cf8a','#ff5959'],
+          hAxis: { title: 'Candidate'},
+          vAxis: { title: 'Points'}
+        };
+        chart.draw(dataTable, options);
+    }else{
+      	container.innerHTML = "No data found.";
+    }
+  }
+
+  function drawChart2(data) {
+   var height = $(window).height() - 50;
+   $('#chartDiv2').height(height);
+
+    var container = document.getElementById('chartDiv2');
+    var chart = new google.visualization.ColumnChart(container);
+    var dataTable = new google.visualization.DataTable();
+
+    // add listener on select event
+    // google.visualization.events.addListener(chart, 'select', function () {
+    //   var selection = chart.getSelection();
+    //   var row = selection[0].row;
+    //   alert("Selected " + dataTable.getValue(row, 0));
+    //   window.location = "http://www.google.com";
+    // });
+    
+    dataTable.addColumn({ type: 'string', id: 'Candidate' });
+    dataTable.addColumn({ type: 'number', id: 'Positive', label:'Positive' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip', p: {html: true} });
+    dataTable.addColumn({ type: 'number', id: 'Negative', label:'Negative' });
+    dataTable.addColumn({ type: 'string', role: 'tooltip', p: {html: true} });
+
+    // Create the data table with data
+    if ( data.length > 0 ){
+        $.each(data, function(i, value){
+          dataTable.addRow( [value.candidate, value.good, createHtmlTooltip(value), value.bad * -1, createHtmlTooltip(value) ]);
+        });
+
+        var options = {
+          title: 'CNN',
+          isStacked: true,
+	  tooltip: {isHtml: true }, /* use HTML tooltip */
+    	  colors: ['#59cf8a','#ff5959'],
+          hAxis: { title: 'Candidate'},
+          vAxis: { title: 'Points'}
+        };
+        chart.draw(dataTable, options);
+    }else{
+      	container.innerHTML = "No data found.";
+    }
+  }
+
+  function createHtmlTooltip(value) {
+     var html = '<div class="popup"><img src="../static/images/Biden.jpg" width="42" height="42">'
+       + '<b>' + value.candidate + '</b><hr>'
+       + '<b>Description:</b><br>' + value.description
+       + '<br><b>Positive: </b>' + value.good
+       + '<br><b>Negative: </b>' + value.bad
+       + '<br></div>';
+    return html;
+  }
+
+  function loadData(){
+    $("#errorMsg").hide();
+    let startDate = $("#startDate").datepicker({dateFormat: 'yy-mm-dd'}).val();
+    let endDate = $("#endDate").datepicker({dateFormat: 'yy-mm-dd'}).val();
+    if(startDate == 0 || endDate == 0) {
+        $("#errorMsg").show();
+        return
+    }
+    var newsSource1 = $("#news1").val();
+    var newsSource2 = $("#news2").val();
+	  
+	// $("#spinner").show();
+	// $.getJSON("news/" + newsSource1 , function (data) {
+    //     $("#spinner").hide();
+    //     //TODO
+    //     serverData = data;
+    //     drawChart(data);
+    //     $("#spinner").hide();
+    // });
+
+    // $("#spinner").show();
+	// $.getJSON("news/" + newsSource1 , function (data) {
+	// 	$("#spinner").hide();
+    //     // TODO: assign data
+    //     serverData = data;
+    //     drawChart2(data);
+    //     $("#spinner").hide();
+    // });
+      
+
+    drawChart(serverData);
+    drawChart2(serverData);
+	  /*
+      get(baseURL + "gym/" + day, {}, function (data) {
+    	  serverData = data;
+          drawChart(data);
+          //$("#spinner").hide();
+      });
+      */
+  }
+
+  $(document).ready( function(){
+
+  });
+
+  $(document).ready( function(){
+     // jQuery datepicker
+     $(".datepicker").datepicker({
+       dateFormat : 'yy-mm-dd',
+       minDate : 0
+     });
+
+  });
+
+  $(window).resize(function(){
+      // resize chart on window resize
+      drawChart(serverData);
+      drawChart2(serverData);
+  });
+
+
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <h3>2020 Presidential Election</h3>
+  <div>Start Date: 
+        <input class="datepicker button" id="startDate" readonly>
+        End Date: 
+        <input class="datepicker button" id="endDate" readonly>
+        <button type="button" class="btn btn-dark" onclick="loadData()">Filter</button>
+    </div>
+    <div id=>News Source 1: 
+            <select id="news1">
+                    <option value="ABC">ABC</option>
+                    <option value="CBS">CBS</option>
+                    <option value="NBC">NBC</option>
+                    <option value="CNN">CNN</option>
+                    <option value="Fox">Fox</option>
+                    <option value="BBC">BBC</option>
+                    <option value="Washington_Post">Washington Post</option>
+                    <option value="AP">Associated Press</option>
+            </select>
+        News Source 2: 
+            <select id="news2">
+                    <option value="ABC">ABC</option>
+                    <option value="CBS">CBS</option>
+                    <option value="NBC">NBC</option>
+                    <option value="CNN">CNN</option>
+                    <option value="Fox">Fox</option>
+                    <option value="BBC">BBC</option>
+                    <option value="Washington_Post">Washington Post</option>
+                    <option value="AP">Associated Press</option>
+            </select>
+    </div>
+    <div id="errorMsg" class="error" style="display: None;">Please select a time window.</div>  
+    <div class="row">
+        <div class="col-md-6"> 
+            <div id="chartDiv" style="height:500px;width: 100%"></div> 
+        </div>
+        <div class="col-md-6"> 
+            <div id="chartDiv2" style="height:500px;width: 100%"></div>
+        </div>
+    </div>
+ <div id="spinner" class="loader" style="display:none;"></div>
+
+</body>
+</html>
