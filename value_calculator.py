@@ -1,36 +1,42 @@
 from json_parser import json_to_articles
 
-def value_calculator(newArticles):
+# articles = { "CNN" : [ [ article_mean, [ [ keyword, salience, mag, score ] ] ] ],
+#                      [ next article ], [ next article ] ], "NBC" : , etc. }
 
-    keywordTerms = {}
-    saliences = {}
-    total_article_mean = 0
+# candidate_means = { "CNN" : { "Biden" : biden_mean, "Sanders" : etc. ...},
+#                     "NBC" : { etc. } }
 
-    for articleFile in newArticles:
-        articleVals = json_to_values(articleFile[0], articleFile[1])
-        article_mean = articleVals[0]
-        total_article_mean += article_mean
+def eval_articles_mean(allArticles):
 
-        # iterate through each keyword
-        for i in range(len(articleVals[1])):
-            if articleVals[1][i][0] not in keywordTerms.keys():
-                keywordTerms[articleVals[1][i][0]] = 0
+    candidate_means = {}
+
+    for news_key in allArticles.keys():
+        
+        if news_key not in candidate_means.keys():
+            candidate_means[news_key] = {}
+
+        total_article_mean = 0
+
+        for article in allArticles[news_key]:
+            total_article_mean += article[0]
+
+        total_article_mean /= len(allArticles[news_key])
+
+        for article in allArticles[news_key]:
+
+            for candidate in article[1]:
                 
-            if articleVals[1][i][0] not in saliences.keys():
-                saliences[articleVals[1][i][0]] = 0 
+                if candidate[0] not in candidate_means[news_key].keys():
+                    candidate_means[news_key][candidate[0]] = 0
 
-            keywordTerms[articleVals[1][i][0]] += articleVals[1][i][1] * \
-                                                   articleVals[1][i][2] * \
-                                                   articleVals[1][i][3]
+                candidate_means[news_key][candidate[0]] += candidate[1] * \
+                                                           candidate[2] * \
+                                                           candidate[3]
 
-            keywordTerms[articleVals[1][i][0]] -= articleVals[1][i][3] * \
-                                                  article_mean
+                candidate_means[news_key][candidate[0]] -= candidate[3] * \
+                                                           article[0]
 
-            saliences[articleVals[1][i][0]] += articleVals[1][i][3]
+                candidate_means[news_key][candidate[0]] += candidate[3] * \
+                                                           total_article_mean
 
-    total_article_mean /= len(newArticles)
-
-    for keyword in keywordTerms.keys():
-        keywordTerms[keyword] += saliences[keyword] * total_article_mean
-
-    return keywordTerms
+    return candidate_means
