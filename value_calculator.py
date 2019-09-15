@@ -40,3 +40,46 @@ def eval_articles_mean(allArticles):
                                                            total_article_mean
 
     return candidate_means
+
+
+def eval_articles_pm(allArticles):
+
+    candidate_means = {}
+
+    for news_key in allArticles.keys():
+        
+        if news_key not in candidate_means.keys():
+            candidate_means[news_key] = {}
+
+        total_article_mean = 0
+
+        for article in allArticles[news_key]:
+            total_article_mean += article[0]
+
+        total_article_mean /= len(allArticles[news_key])
+
+        for article in allArticles[news_key]:
+
+            for candidate in article[1]:
+                
+                if candidate[0] not in candidate_means[news_key].keys():
+                    candidate_means[news_key][candidate[0]] = [0, 0]
+
+                temp = 0
+
+                temp += candidate[1] * \
+                                                           candidate[2] * \
+                                                           candidate[3]
+
+                temp -= candidate[3] * \
+                                                           article[0]
+
+                temp += candidate[3] * \
+                                                           total_article_mean
+
+                if temp > 0:
+                    candidate_means[news_key][candidate[0]][0] += temp
+                else:
+                    candidate_means[news_key][candidate[0]][1] += temp
+
+    return candidate_means
