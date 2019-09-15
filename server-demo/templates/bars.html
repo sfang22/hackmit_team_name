@@ -177,12 +177,18 @@
 	  
 	// $("#spinner").show();
 	// $.getJSON("news/" + newsSource1 , function (data) {
-    //     $("#spinner").hide();
-    //     //TODO
-    //     serverData = data;
-    //     drawChart(data);
-    //     $("#spinner").hide();
-    // });
+  //       $("#spinner").hide();
+  //       //TODO
+  //       serverData = data;
+  //       drawChart(data);
+  //       $("#spinner").hide();
+  //   });
+
+    fetch("/news/" + newsSource1, {method: 'GET'})
+      .then(data => data.text())
+      .then(resp =>
+        console.log(resp));
+
 
     // $("#spinner").show();
 	// $.getJSON("news/" + newsSource1 , function (data) {
@@ -239,6 +245,7 @@
     </div>
     <div id=>News Source 1: 
             <select id="news1">
+                    <option value="all">All</option>
                     <option value="ABC">ABC</option>
                     <option value="CBS">CBS</option>
                     <option value="NBC">NBC</option>
@@ -250,6 +257,7 @@
             </select>
         News Source 2: 
             <select id="news2">
+                    <option value="all">All</option>
                     <option value="ABC">ABC</option>
                     <option value="CBS">CBS</option>
                     <option value="NBC">NBC</option>
