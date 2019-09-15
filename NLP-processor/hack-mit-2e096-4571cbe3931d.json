@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hack-mit-2e096",
+  "private_key_id": "4571cbe3931d3ac5aa8642c071cb572f4c6a0d73",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDbppGixhmWys++\nvqtms4oHErOW6FcjBR04Bj1QcR/MPANJdlnAp6gffwj1r30Q5L4YS+wIMf36t3MR\n5mzmgqMQaQvU3J5HZQE5mJn1prlw+aTNmgC/e1/qVzp2l16aBzVjQaL1P3Q44eKH\npoFgLUZTVQuMMCgvxnvC2QadSLxt7YXtk92j9TjOcgTPJPvahfNhzVL83KAbHBw9\nytB/+liVAbuzryitIR3JETKZZL2HPWwksk4bWZNLTxNFmaY63WIjriyl5nhtz9Nk\nNZOmGqwx5yTj0PoJ1ai5wmUsa86MOjExQ+QFi35gFsMwo5Df0EIfLqh3cwIDRh5c\ncREOyeaVAgMBAAECggEAZHud8kYH3MjpIsydIr2NrlCq4aVmf3nOdRu9nvgxYMAv\njMLcqlrIeagm1CY0466RHBJXZyRfmPulY5HzTbyDlnVH2VgX/HdDiTK7c/qSqRE7\niGckYnSxW0YOU8RJndMgZEjZoLInnAISHJZaZ0IvAt5MCxTYvYpiga/A6+EjenGu\nnpo7zs+Npf5MGnIw7CY+QVB5cOFi5moQupFV1UEmBwEwhMDi3NgOWCVLKyBtwJBh\nAZb6SA0MMDnfXhtFo7F1e8hlneEszcDocxLV6OJ+1kP9KI9C7bll2/G2rx+8wdY/\n4phiwsa70/3tkBugHvGdatMUnLXQE3nHO022w0wr/QKBgQD0G28xCnvlYBrtMwEK\ncC2IK8ykMaJwpN0Ga3klJOKSOa7qIE+n25R2g3OhCUDkec37vfJ5rWlXzG9dX6MO\nQOHHMVje036IZqVfSNmyJw4aqMeEQhJSZHbEr2PXc+jF2EYCOKdjZ1j2NCjqQ9CQ\nFvS+4uTK2zTVz+6ZwYrLmX/MfwKBgQDmWhtdDV3/fZLjYXFNBlAHwWZhm/DzU0N0\nstpsI3RgBMOyQ7y/4SRRIaLnEzACEGoJp6tlz0+4Fy/6adAjKISkWq+qhB/mIdfk\nBjkcectX6xKrqu/4cI5Gm9sncfGwRVWattxX8lEczsyTYHIafWlSKwto2nYGwXZA\nXN2ypsfS6wKBgQCSCQOZPCNo0vjo5LV/sCKdL07K/+KlLwwHdi5QeWOOhTHOYSwm\nSKflyrhXI7kNtozzSOyRvJuj6erJ2pgqw8gOqcf37mDpazcN7QBHozO94TETP4/E\neNPQ0PiTAYXFLqCbXZdOUZqYGBZOJ+nS+djLhePINCHEtBOTKoVFTnx1MwKBgQDg\nd9gIYjlB+aVEzDSzYT5lgFH7NhGjm3S1aIAuNpJ16s6kjRuGQ6e3I7bxxCHZMROT\nmv8Ls+w0MOxA8hGv4RD4c6KQ4DWRdVNC0cmfdRPw9ZJ5FJbJmy0Zo1D47DEfm0Dj\nBeRME0Z1cxOpXadzJtiWCHoS0CeJR8aqy5QCPkGkxwKBgBvTxZrxAaabAbAjwZve\n7MH95N3nHXcSIJ5Vsd3qB0uEYaQk/nMjTRWFsy9M5ekkrNF//gXzDh3H/GL9YIUv\nHAOeBBI/V3GDdz2lkLegvj2weXUiie5uHfIq4IOHS9dSj/2Od24HQRfatj5Fcmqa\niK0HeWN1pSeJ6jQAElTpZLeW\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-cloud-nlp@hack-mit-2e096.iam.gserviceaccount.com",
+  "client_id": "111454502972806624035",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-cloud-nlp%40hack-mit-2e096.iam.gserviceaccount.com"
+}
