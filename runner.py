@@ -19,8 +19,38 @@ json_superfile = "sample.json"
 
 article_values = json_to_articles(json_superfile)
 
-mean = eval_articles_mean(article_values)
-std = eval_articles_std(article_values)
+# mean = eval_articles_mean(article_values)
+# std = eval_articles_std(article_values)
 pm = eval_articles_pm(article_values)
 
-print(mean, std, pm)
+large_constant = 10000
+
+log_pm = {}
+for i in pm.keys():
+    
+    temp_news_dict = {}
+    for j in pm[i].keys():
+        
+        logPos = 0
+        if pm[i][j][0] == 0:
+            logPos = 0
+        else:
+            if pm[i][j][0] * large_constant < 1:
+                print("AHHHHHHHHHHHHHH")
+            logPos = math.log(pm[i][j][0] * large_constant, 10)
+
+        logNeg = 0
+        if pm[i][j][1] == 0:
+            logNeg = 0
+        else:
+            if -pm[i][j][1] * large_constant < 1:
+                print("AHHHHHHHHHHHHHH")
+            logNeg = -math.log(-pm[i][j][1] * large_constant, 10)
+        
+        temp_news_dict[j] = [logPos, logNeg]
+    log_pm[i] = temp_news_dict
+
+# print(mean)
+# print(std)
+print(pm)
+print(log_pm)
