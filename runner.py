@@ -53,5 +53,11 @@ for i in pm.keys():
 
 # print(mean)
 # print(std)
-print(pm)
+# print(pm)
 print(log_pm)
+
+for n in log_pm:
+    for c in log_pm[n]:
+        # print(n,c,log_pm[n][c][0],log_pm[n][c][1])
+        db.child("news-insights").child(n).push({c: (log_pm[n][c][0], log_pm[n][c][1])})
+        db.child("candidates-insights").child(c).push({n: (log_pm[n][c][0], log_pm[n][c][1])})
